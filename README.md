@@ -1,10 +1,10 @@
 # Introduction
-Everything here is made by me and for the soul purpose of learning. This is still work in progress and there is absolutely no warranty that it will work. In fact it will not work almost certainly but if you are willing to give it a try then ill gladly help you.
+Everything here is made for the purpose of learning. This is still work in progress and there is absolutely no warranty that it will work. In fact it will not work almost certainly but if you are willing to give it a try then ill gladly help you.
 You can contact me on lech.lachowicz@gmailthisshouldberemoved.com
 
 
 # A short howto install
-Install Centos 7 minimal and set up interfaces
+Install Centos 7 minimal and set up everything
 
 Set the password that will be used later to access kibana
 ```
