@@ -65,11 +65,19 @@ systemctl start elasticsearch
 systemctl enable elasticsearch
 ```
 
+Configure Kibana
+```
 echo "server.host: \"localhost\"" >> /etc/kibana/kibana.yml
+```
 
+And start it
+```
 systemctl start kibana
 systemctl enable kibana
+```
 
+Now lets go for nginx:
+```
 yum -y install epel-release
 yum -y install nginx httpd-tools
 
@@ -128,33 +136,45 @@ server {
     }
 }
 EOF
+```
 
-# Start nginx
+And start nginx
+
+```
 systemctl start nginx
 systemctl enable nginx
+```
 
 
+Download and install SMG logstash configs
+```
 cd /etc/logstash/conf.d/
 wget https://raw.githubusercontent.com/ponquersohn/SYMC_elasticsearch/master/conf.d/smg.conf
 mkdir /etc/logstash/conf.d/patterns
 cd patterns
 wget https://raw.githubusercontent.com/ponquersohn/SYMC_elasticsearch/master/conf.d/patterns/smg
+```
 
-# Restart logstash
+Restart logstash
+```
 systemctl restart logstash
 systemctl status logstash
 systemctl enable logstash
+```
 
-# add firewall rules
+
+Dont forget to install missing firewall rules.
+```
 firewall-cmd --add-port=80/tcp
 firewall-cmd --add-port=80/tcp --permanent
 
 firewall-cmd --add-port=5140/tcp
 firewall-cmd --add-port=5140/tcp --permanent
+```
 
-# As of now logstash is waiting for syslog logs on port 5140, parses everything and loads it to elasticsearch. 
-# you can access kibana under http://<host> 
-#
+As of now logstash is waiting for syslog logs on port 5140, parses everything and loads it to elasticsearch. 
+You can access kibana under http://<host> 
+
 # Remember to sync dates between ELK host and SMG!!!
 
 
