@@ -1,14 +1,18 @@
-# Everything here is made by me and for the soul purpose of learning. This is still work in progress and there is absolutely no warranty that it will work. In fact it will not work almost certainly but if you are willing to give it a try then ill gladly help you.
-# You can contact me on lech.lachowicz@gmailthisshouldberemoved.com
+# Introduction
+Everything here is made by me and for the soul purpose of learning. This is still work in progress and there is absolutely no warranty that it will work. In fact it will not work almost certainly but if you are willing to give it a try then ill gladly help you.
+You can contact me on lech.lachowicz@gmailthisshouldberemoved.com
 
 
 # A short howto install
-# Install Centos 7 minimal and set up interfaces
+Install Centos 7 minimal and set up interfaces
 
-# Set the password that will be used later to access kibana
+Set the password that will be used later to access kibana
+```
 export KIBANAADMIN_PASSWD="topsecretpassword"
- 
+```
+
 #Install all required dependencies
+```
 yum -y install vim wget mailx tcpdump
 cd ~
 wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u73-b02/jdk-8u73-linux-x64.rpm"
@@ -16,9 +20,10 @@ wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2F
 sudo yum -y localinstall jdk-8u73-linux-x64.rpm
 
 rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+```
 
-#Disable SELinux
-
+Disable SELinux
+```
 cat << EOF > /etc/selinux/config
 SELINUX=disabled
 # SELINUXTYPE= can take one of three two values:
@@ -27,9 +32,10 @@ SELINUX=disabled
 #     mls - Multi Level Security protection.
 SELINUXTYPE=targeted
 EOF
+```
 
-# Add Elasticsearch repo:
-
+Add Elasticsearch repo:
+```
 cat << EOF > /etc/yum.repos.d/elastic.repo
 [elasticsearch-5.x]
 name=Elasticsearch repository for 5.x packages
@@ -40,19 +46,24 @@ enabled=1
 autorefresh=1
 type=rpm-md
 EOF
+```
 
-# And install Elasticsearch, Kibana and logstash
-yum -y install elasticsearch logstash kibana
+And install Elasticsearch, Kibana and logstash
+`yum -y install elasticsearch logstash kibana`
 
-# Configure Elasticsearch by setting it up to listen on localhost
+Configure Elasticsearch by setting it up to listen on localhost
+```
 cat << EOF >> /etc/elasticsearch/elasticsearch.yml
 network.host: "localhost"
 script.engine.groovy.inline.aggs: true
 script.engine.groovy.inline.update: on
 EOF
-
+```
+Start Elasticsearch
+```
 systemctl start elasticsearch
 systemctl enable elasticsearch
+```
 
 echo "server.host: \"localhost\"" >> /etc/kibana/kibana.yml
 
