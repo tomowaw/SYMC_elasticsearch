@@ -173,9 +173,9 @@ firewall-cmd --add-port=5140/tcp --permanent
 ```
 
 As of now logstash is waiting for syslog logs on port 5140, parses everything and loads it to elasticsearch. 
-You can access kibana under http://<host> 
+You can access kibana under http://elk.host 
 
-# Remember to sync dates between ELK host and SMG!!!
+# Remember to sync time between ELK host and SMG!!!
 
 
 
