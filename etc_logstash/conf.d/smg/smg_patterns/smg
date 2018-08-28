@@ -1,0 +1,131 @@
+SMG_VERDICT VERDICT
+SMG_TD_RESULT TD_RESULT
+SMG_UNTESTED UNTESTED
+SMG_TRACKERID TRACKERID
+SMG_TLS_RECEIVED TLS_RECEIVED
+SMG_SUBJECT SUBJECT
+SMG_SOURCE SOURCE
+SMG_SOURCETYPE internal|external
+SMG_SENDER SENDER
+SMG_ORCPTS ORCPTS
+SMG_MSG_SIZE MSG_SIZE
+SMG_MSGID MSGID
+SMG_LOGICAL_IP LOGICAL_IP
+SMG_IRCPTACTION IRCPTACTION
+SMG_FIRED FIRED
+SMG_EHLO EHLO
+SMG_DELIVERY_FAILURE DELIVERY_FAILURE
+SMG_TRANS_FAILURE TRANS_FAILURE
+SMG_DELIVER DELIVER
+SMG_ATTACH ATTACH
+SMG_ACCEPT ACCEPT
+SMG_VIRUS VIRUS
+SMG_UNSCANNABLE UNSCANNABLE
+
+SMG_RECEIVED RECEIVED
+SMG_RESUBMIT RESUBMIT
+
+EMAILADDRESSPART [a-zA-Z0-9_.+-=:]+
+EMAILADDRESS (%{EMAILADDRESSPART:local}@%{EMAILADDRESSPART:remote}|<>)
+
+SHA256 [A-Fa-f0-9]{64}
+MSGID \s*(%{GREEDYDATA:msgid})?
+
+DELIVERYIPPORT %{IP:delivery_ip}:%{NUMBER:delivery_port}
+DELIVERYTARGET (%{DELIVERYIPPORT}|%{GREEDYDATA})
+
+ACCEPTIPPORT %{IP:accept_ip}:%{NUMBER:accept_port}
+ACCEPTIPPORT_OBJ %{IP:[accept][accept_ip]}:%{NUMBER:[accept][accept_port]}
+
+
+SMGUID [0-9a-f]{8}-[0-9a-f]{16}-[0-9a-f]{2}-[0-9a-f]{12}
+
+#single liners
+SMG_ACCEPT_PTRN                 %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_ACCEPT:action}\|%{ACCEPTIPPORT:accept_ip_port}
+SMG_ACCEPT_OBJ_PTRN             %{NUMBER:[accept][date]}\|%{SMGUID:smguid}\|%{SMG_ACCEPT:action}\|%{ACCEPTIPPORT_OBJ:[accept][accept_ip_port]}
+
+SMG_EHLO_PTRN                   %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_EHLO:action}\|%{GREEDYDATA:ehlo_host}
+SMG_EHLO_OBJ_PTRN               %{NUMBER:[ehlo][date]}\|%{SMGUID:smguid}\|%{SMG_EHLO:action}\|%{GREEDYDATA:[ehlo][ehlo_host]}
+
+SMG_TLS_RECEIVED_PTRN           %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_TLS_RECEIVED:action}\|%{GREEDYDATA:tls_received}
+SMG_TLS_RECEIVED_OBJ_PTRN       %{NUMBER:[tls_received][date]}\|%{SMGUID:smguid}\|%{SMG_TLS_RECEIVED:action}\|%{GREEDYDATA:[tls_received][tls_received]}
+
+SMG_SUBJECT_PTRN                %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_SUBJECT:action}\|%{GREEDYDATA:subject}
+SMG_SUBJECT_OBJ_PTRN            %{NUMBER:[subject][date]}\|%{SMGUID:smguid}\|%{SMG_SUBJECT:action}\|%{GREEDYDATA:[subject][subject]}
+
+SMG_SOURCE_PTRN                 %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_SOURCE:action}\|%{SMG_SOURCETYPE:source}
+SMG_SOURCE_OBJ_PTRN             %{NUMBER:[source][date]}\|%{SMGUID:smguid}\|%{SMG_SOURCE:action}\|%{SMG_SOURCETYPE:[source][source]}
+
+SMG_SENDER_PTRN                 %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_SENDER:action}\|%{EMAILADDRESS:sender}
+SMG_SENDER_OBJ_PTRN             %{NUMBER:[sender][date]}\|%{SMGUID:smguid}\|%{SMG_SENDER:action}\|%{EMAILADDRESS:[sender][sender]}
+
+SMG_MSGID_PTRN                  %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_MSGID:action}\|%{MSGID:msgid}
+SMG_MSGID_OBJ_PTRN              %{NUMBER:[msgid][date]}\|%{SMGUID:smguid}\|%{SMG_MSGID:action}\| %{MSGID:[msgid][msgid]}
+
+SMG_MSG_SIZE_PTRN               %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_MSG_SIZE:action}\|%{NUMBER:msg_size}
+SMG_MSG_SIZE_OBJ_PTRN           %{NUMBER:[msg_size][date]}\|%{SMGUID:smguid}\|%{SMG_MSG_SIZE:action}\|%{NUMBER:[msg_size][msg_size]}
+
+SMG_LOGICAL_IP_PTRN             %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_LOGICAL_IP:action}\|%{IP:logical_ip}
+SMG_LOGICAL_IP_OBJ_PTRN         %{NUMBER:[logical_ip][date]}\|%{SMGUID:smguid}\|%{SMG_LOGICAL_IP:action}\|%{IP:[logical_ip][logical_ip]}
+
+# single to split
+SMG_ATTACH_PTRN                 %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_ATTACH:action}\|%{GREEDYDATA:attachments}
+SMG_ATTACH_OBJ_PTRN             %{NUMBER:[attach][date]}\|%{SMGUID:smguid}\|%{SMG_ATTACH:action}\|%{GREEDYDATA:[attach][attachments]}
+
+SMG_ORCPTS_PTRN                 %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_ORCPTS:action}\|%{GREEDYDATA:recipient}
+SMG_ORCPTS_OBJ_PTRN             %{NUMBER:[orcpts][date]}\|%{SMGUID:smguid}\|%{SMG_ORCPTS:action}\|%{GREEDYDATA:[orcpts][recipients]}
+
+#
+SMG_UNTESTED_PTRN               %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_UNTESTED:action}\|%{GREEDYDATA:untested}
+SMG_UNTESTED_OBJ_PTRN           %{NUMBER:[untested][date]}\|%{SMGUID:smguid}\|%{SMG_UNTESTED:action}\|%{EMAILADDRESS:[untested][recipient]}\|%{GREEDYDATA:[untested][untested]}
+
+
+
+
+
+
+SMG_RECEIVED_PTRN	   %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_RECEIVED:action}
+SMG_VERDICT_PTRN           %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_VERDICT:action}\|(%{EMAILADDRESS:recipient}|<none>)\|%{DATA:verdict}\|%{DATA:policy_group}\|%{GREEDYDATA:filtering_policy}
+# Aug  8 16:31:46 smg bmserver[22534]: 1533738706|0a8018c9-ad1ff700000058d7-0e-5b6afec75f2c|TD_RESULT|product list_quotation sheet,doc.iso|e65dd9a318890f6d171eaadea52837b0b08a9fbb7436387baef8e808bcb5a45a|10.128.24.202|1533738696|1533738706|cas_malware|10
+SMG_TD_RESULT_PTRN         %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_TD_RESULT:action}\|%{GREEDYDATA:filename}\|%{SHA256:sha256}\|%{IP:cas_ip}\|%{NUMBER:timestamp1}\|%{NUMBER:timestamp2}\|%{GREEDYDATA:cas_verdict}\|%{NUMBER:cas_score}
+SMG_RESUBMIT_PTRN	   %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_RESUBMIT:action}\|%{GREEDYDATA:cas}\|%{GREEDYDATA:command}\|%{EMAILADDRESS:resubmit_recipient}
+SMG_UNSCANNABLE_PTRN       %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_UNSCANNABLE:action}\|%{GREEDYDATA:unscannable_reason}
+SMG_VIRUS_PTRN		   %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_VIRUS:action}\|%{GREEDYDATA:detection_name}
+
+
+SMG_TRACKERID_PTRN         %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_TRACKERID:action}\|%{EMAILADDRESS:recipient}\|%{GREEDYDATA:trackerid}
+
+
+SMG_IRCPTACTION_PTRN       %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_IRCPTACTION:action}\|%{EMAILADDRESS:recipient}\|%{GREEDYDATA:ircptaction}
+SMG_FIRED_PTRN             %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_FIRED:action}\|%{EMAILADDRESS:recipient}\|%{GREEDYDATA:fired}
+
+SMG_DELIVERY_FAILURE_PTRN  %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_DELIVERY_FAILURE:action}\|%{DELIVERYTARGET:delivery_target}\|%{DATA:delivery_failure_message}\|%{EMAILADDRESS:recipient}
+SMG_TRANS_FAILURE_PTRN     %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_TRANS_FAILURE:action}\|%{DATA:next_hop}\|%{DATA:delivery_failure_message}\|%{EMAILADDRESS:recipient}\|%{NUMBER:costam_czas}
+SMG_DELIVER_PTRN           %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_DELIVER:action}\|%{DELIVERYIPPORT:delivery_target}\|%{EMAILADDRESS:recipient}
+
+
+#
+#
+                                              
+
+
+
+#SMG_VERDICT_OBJ_PTRN           %{NUMBER:[verdict][date]}\|%{SMGUID:smguid}\|%{SMG_VERDICT:action}\|%{EMAILADDRESS:[verdict][recipient]}\|%{DATA:[verdict][verdict]}\|%{DATA:[verdict][policy_group]}\|%{DATA:[verdict][filtering_policy]}\n
+#SMG_IRCPTACTION_OBJ_PTRN       %{NUMBER:[ircptaction][date]}\|%{SMGUID:smguid}\|%{SMG_IRCPTACTION:action}\|%{EMAILADDRESS:[ircptaction][recipient]}\|%{DATA:[ircptaction][rcpt_action]}\n
+#SMG_TRACKERID_OBJ_PTRN         %{NUMBER:[trackerid][date]}\|%{SMGUID:smguid}\|%{SMG_TRACKERID:action}\|%{EMAILADDRESS:[trackerid][recipient]}\|%{DATA:[trackerid][trackerid]}\n
+#SMG_FIRED_OBJ_PTRN             %{NUMBER:[fired][date]}\|%{SMGUID:smguid}\|%{SMG_FIRED:action}\|%{EMAILADDRESS:[fired][recipient]}\|%{DATA:[fired][fired]}\n
+
+#DELIVERYFAILUREIPPORT_OBJ %{IP:[delivery_failure][delivery_ip]}:%{NUMBER:[delivery_failure][delivery_port]}
+#SMG_DELIVERY_FAILURE_OBJ_PTRN  %{NUMBER:[delivery_failure][date]}\|%{SMGUID:smguid}\|%{SMG_DELIVERY_FAILURE:action}\|%{DELIVERYFAILUREIPPORT_OBJ:[delivery_failure][delivery_ip_port]}\|%{DATA:[delivery_failure][delivery_failure_message]}\|%{EMAILADDRESS:[delivery_failure][recipient]}\n
+
+#SMG_TRANS_FAILURE_OBJ_PTRN     %{NUMBER:[trans_failure][date]}\|%{SMGUID:smguid}\|%{SMG_TRANS_FAILURE:action}\|%{DATA:[trans_failure][next_hop]}\|%{DATA:[trans_failure][message]}\|%{EMAILADDRESS:[trans_failure][recipient]}\|%{NUMBER:[trans_failure][costam_czas]}
+
+#DELIVERIPPORT_OBJ %{IP:[deliver][delivery_ip]}:%{NUMBER:[deliver][deliver_port]}
+#DELIVEREMAILADDRESS_OBJ %{EMAILADDRESSPART:[deliver][recipient_name]}@%{EMAILADDRESSPART:[deliver][recipient_domian]}
+
+#SMG_DELIVER_OBJ_PTRN           %{NUMBER:[deliver][date]}\|%{SMGUID:smguid}\|%{SMG_DELIVER:action}\|%{DELIVERIPPORT_OBJ:[deliver][deliver_ip_port]}\|%{DELIVEREMAILADDRESS_OBJ:[deliver][recipient]}\n
+#
+
+SMG_ELSE		    %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{GREEDYDATA:_else}
+
+
