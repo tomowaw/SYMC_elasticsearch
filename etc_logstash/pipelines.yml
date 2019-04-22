@@ -5,8 +5,11 @@
 - pipeline.id: main
   path.config: "/etc/logstash/conf.d/*.conf"
 
-- pipeline.id: smg-event
-  path.config: "/etc/logstash/conf.d/smg/smg-event.conf"
+#- pipeline.id: smg-event
+#  path.config: "/etc/logstash/conf.d/smg/smg-event.logstash.conf"
 
-- pipeline.id: cas-event
-  path.config: "/etc/logstash/conf.d/cas/cas-event.conf"
+#- pipeline.id: cas-event
+#  path.config: "/etc/logstash/conf.d/cas/cas-event.logstash.conf"
+
+- pipeline.id: smg-object
+  path.config: "/etc/logstash/conf.d/smg/smg-object.logstash.conf"
