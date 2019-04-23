@@ -146,10 +146,10 @@
                                                 }
                                         }
                                 },
-                                "delivery_ip": {
+                                "deliver_ip": {
                                         "type": "ip"
                                 },
-                                "delivery_ip_geoip": {
+                                "deliver_ip_geoip": {
                                         "dynamic": "true",
                                         "properties": {
                                                 "ip": {
@@ -166,7 +166,7 @@
                                                 }
                                         }
                                 },
-                                "delivery_port": {
+                                "deliver_port": {
                                         "type": "text",
                                         "fields": {
                                                 "keyword": {
@@ -175,7 +175,7 @@
                                                 }
                                         }
                                 },
-                                "delivery_target": {
+                                "deliver_target": {
                                         "type": "text",
                                         "fields": {
                                                 "keyword": {

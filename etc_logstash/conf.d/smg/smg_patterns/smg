@@ -33,8 +33,12 @@ EMAILADDRESS (%{EMAILADDRESSPART:local}@%{EMAILADDRESSPART:remote}|<>)
 SHA256 [A-Fa-f0-9]{64}
 MSGID \s*(%{GREEDYDATA:msgid})?
 
-DELIVERYIPPORT %{IP:delivery_ip}:%{NUMBER:delivery_port}
-DELIVERYTARGET (%{DELIVERYIPPORT}|%{GREEDYDATA})
+DELIVERIPPORT %{IP:deliver_ip}:%{NUMBER:deliver_port}
+DELIVERTARGET (%{DELIVERIPPORT}|%{GREEDYDATA})
+
+DELIVERIPPORT_OBJ %{IP:[deliver][deliver_ip]}:%{NUMBER:[deliver][deliver_port]}
+DELIVERTARGET_OBJ (%{DELIVERIPPORT_OBJ}|%{GREEDYDATA})
+
 
 ACCEPTIPPORT %{IP:accept_ip}:%{NUMBER:accept_port}
 ACCEPTIPPORT_OBJ %{IP:[accept][accept_ip]}:%{NUMBER:[accept][accept_port]}
@@ -109,8 +113,8 @@ SMG_TRACKERID_OBJ_PTRN          %{NUMBER:[trackerid][date]}\|%{SMGUID:smguid}\|%
 SMG_RESUBMIT_PTRN	            %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_RESUBMIT:action}\|%{GREEDYDATA:cas}\|%{GREEDYDATA:command}\|%{EMAILADDRESS:resubmit_recipient}
 SMG_RESUBMIT_OBJ_PTRN	        %{NUMBER:[resubmit][date]}\|%{SMGUID:smguid}\|%{SMG_RESUBMIT:action}\|%{GREEDYDATA:[resubmit][cas]}\|%{GREEDYDATA:[resubmit][command]}\|%{EMAILADDRESS:[resubmit][recipient]}
 
-SMG_DELIVER_PTRN                %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_DELIVER:action}\|%{DELIVERYIPPORT:delivery_target}\|%{EMAILADDRESS:recipient}
-SMG_DELIVER_OBJ_PTRN            %{NUMBER:[deliver][date]}\|%{SMGUID:smguid}\|%{SMG_DELIVER:action}\|%{DELIVERYIPPORT:[deliver][target]}\|%{EMAILADDRESS:[deliver][recipient]}
+SMG_DELIVER_PTRN                %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_DELIVER:action}\|%{DELIVERIPPORT:deliver_target}\|%{EMAILADDRESS:recipient}
+SMG_DELIVER_OBJ_PTRN            %{NUMBER:[deliver][date]}\|%{SMGUID:smguid}\|%{SMG_DELIVER:action}\|%{DELIVERIPPORT_OBJ:[deliver][target]}\|%{EMAILADDRESS:[deliver][recipient]}
 
 SMG_VIRUS_PTRN                  %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_VIRUS:action}\|%{GREEDYDATA:detection_name}
 SMG_VIRUS_OBJ_PTRN              %{NUMBER:[virus][date]}\|%{SMGUID:smguid}\|%{SMG_VIRUS:action}\|%{GREEDYDATA:[virus][detection_name]}
@@ -118,8 +122,8 @@ SMG_VIRUS_OBJ_PTRN              %{NUMBER:[virus][date]}\|%{SMGUID:smguid}\|%{SMG
 SMG_TRANS_FAILURE_PTRN          %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_TRANS_FAILURE:action}\|%{DATA:next_hop}\|%{DATA:delivery_failure_message}\|%{EMAILADDRESS:recipient}\|%{NUMBER:costam_czas}
 SMG_TRANS_FAILURE_OBJ_PTRN      %{NUMBER:[trans_failure][date]}\|%{SMGUID:smguid}\|%{SMG_TRANS_FAILURE:action}\|%{DATA:[trans_failure][next_hop]}\|%{DATA:[trans_failure][delivery_failure_message]}\|%{EMAILADDRESS:[trans_failure][recipient]}\|%{NUMBER:[trans_failure][timestamp]}
 
-SMG_DELIVERY_FAILURE_PTRN       %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_DELIVERY_FAILURE:action}\|%{DELIVERYTARGET:delivery_target}\|%{DATA:delivery_failure_message}\|%{EMAILADDRESS:recipient}
-SMG_DELIVERY_FAILURE_OBJ_PTRN   %{NUMBER:[delivery_failure][date]}\|%{SMGUID:smguid}\|%{SMG_DELIVERY_FAILURE:action}\|%{DELIVERYTARGET:[delivery_failure][delivery_target]}\|%{DATA:[delivery_failure][delivery_failure_message]}\|%{EMAILADDRESS:[delivery_failure][recipient]}
+SMG_DELIVERY_FAILURE_PTRN       %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_DELIVERY_FAILURE:action}\|%{DELIVERTARGET:delivery_target}\|%{DATA:delivery_failure_message}\|%{EMAILADDRESS:recipient}
+SMG_DELIVERY_FAILURE_OBJ_PTRN   %{NUMBER:[delivery_failure][date]}\|%{SMGUID:smguid}\|%{SMG_DELIVERY_FAILURE:action}\|%{DELIVERTARGET:[delivery_failure][delivery_target]}\|%{DATA:[delivery_failure][delivery_failure_message]}\|%{EMAILADDRESS:[delivery_failure][recipient]}
 
 
 # match everything else comming from SMG
