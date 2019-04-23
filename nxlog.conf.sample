@@ -1,0 +1,61 @@
+define ROOT C:\Program Files (x86)\nxlog
+
+Moduledir %ROOT%\modules
+CacheDir %ROOT%\data
+Pidfile %ROOT%\data\nxlog.pid
+SpoolDir %ROOT%\data
+LogFile %ROOT%\data\nxlog.log
+
+<Extension syslog>
+    Module  xm_syslog
+</Extension>
+
+<Extension fileop>
+    Module  xm_fileop
+</Extension>
+
+<Input in>
+    Module  im_udp
+    Host  0.0.0.0
+    Port  514
+    Exec  parse_syslog_ietf();
+</Input>
+
+<Output out>
+    Module  om_file
+    File  "c:/nxlog/smg.log"
+    CreateDir TRUE
+    Exec if (out->file_size() > 100K ) out->rotate_to("c:/nxlog/smg." + strftime(now(), '%Y%m%d') + ".log");
+    Exec out->reopen();
+</Output>
+
+<Route 1>
+    Path  in => out
+</Route>
+
+
+
+
+or with timing:
+<Output out>
+    Module      om_file
+    Exec        $raw_event = $EventReceivedTime + "\t" + $MessageSourceAddress + "\t" + $raw_event;
+    File        "%FILENAME%"
+    <Schedule>
+        When    @daily
+        <Exec>
+            out->rotate_to("D:\syslog\logs\" + strftime(now() - 86400, "%Y-%m-%d") + ".log");
+        </Exec>
+    </Schedule>   
+</Output>
+
+ 
+
+<Output out>
+    Module      om_file
+    Exec        $raw_event = $EventReceivedTime + "\t" + $MessageSourceAddress + "\t" + $raw_event;
+    File        ("%OUTDIR%\\" + strftime(now(), "%Y-%m-%d")+ ".log");
+</Output>
+
+ 
+
