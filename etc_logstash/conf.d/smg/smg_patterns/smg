@@ -16,7 +16,6 @@ SMG_MSGID MSGID
 SMG_LOGICAL_IP LOGICAL_IP
 SMG_IRCPTACTION IRCPTACTION
 SMG_FIRED FIRED
-
 SMG_DELIVERY_FAILURE DELIVERY_FAILURE
 SMG_TRANS_FAILURE TRANS_FAILURE
 SMG_DELIVER DELIVER
@@ -43,8 +42,15 @@ DELIVERTARGET_OBJ (%{DELIVERIPPORT_OBJ}|%{GREEDYDATA})
 ACCEPTIPPORT %{IP:accept_ip}:%{NUMBER:accept_port}
 ACCEPTIPPORT_OBJ %{IP:[accept][accept_ip]}:%{NUMBER:[accept][accept_port]}
 
+#0a8018c9-617ff700000043b2-63-5b89e6dd1cd7
+SMGUID_FIRSTIP [0-9a-f]{8}
+SMGUID_TIDPID [0-9a-f]{16}
+SMGUID_COUNTER [0-9a-f]{2}
+SMGUID_DATE_HEX [0-9a-f]{8}
+SMGUID_RANDOM [0-9a-f]{4}
+SMGUID %{SMGUID_FIRSTIP:smguid_firstip}-%{SMGUID_TIDPID:smguid_tidpid}-%{SMGUID_COUNTER:smguid_counter}-%{SMGUID_DATE_HEX:smguid_date_hex}%{SMGUID_RANDOM:smguid_random}
+SMGUID_OLD [0-9a-f]{8}-[0-9a-f]{16}-[0-9a-f]{2}-[0-9a-f]{12}
 
-SMGUID [0-9a-f]{8}-[0-9a-f]{16}-[0-9a-f]{2}-[0-9a-f]{12}
 
 #single liners
 SMG_ACCEPT ACCEPT
@@ -68,7 +74,7 @@ SMG_SENDER_PTRN                 %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_SENDE
 SMG_SENDER_OBJ_PTRN             %{NUMBER:[sender][date]}\|%{SMGUID:smguid}\|%{SMG_SENDER:action}\|%{EMAILADDRESS:[sender][sender]}
 
 SMG_MSGID_PTRN                  %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_MSGID:action}\|%{MSGID:msgid}
-SMG_MSGID_OBJ_PTRN              %{NUMBER:[msgid][date]}\|%{SMGUID:smguid}\|%{SMG_MSGID:action}\| %{MSGID:[msgid][msgid]}
+SMG_MSGID_OBJ_PTRN              %{NUMBER:[msgid][date]}\|%{SMGUID:smguid}\|%{SMG_MSGID:action}\|%{MSGID:[msgid][msgid]}
 
 SMG_MSG_SIZE_PTRN               %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_MSG_SIZE:action}\|%{NUMBER:msg_size}
 SMG_MSG_SIZE_OBJ_PTRN           %{NUMBER:[msg_size][date]}\|%{SMGUID:smguid}\|%{SMG_MSG_SIZE:action}\|%{NUMBER:[msg_size][msg_size]}
@@ -99,7 +105,7 @@ SMG_UNTESTED_PTRN               %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_UNTES
 SMG_UNTESTED_OBJ_PTRN           %{NUMBER:[untested][date]}\|%{SMGUID:smguid}\|%{SMG_UNTESTED:action}\|%{EMAILADDRESS:[untested][recipient]}\|%{GREEDYDATA:[untested][untested]}
 
 SMG_TD_RESULT_PTRN              %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_TD_RESULT:action}\|%{GREEDYDATA:filename}\|%{SHA256:sha256}\|%{IP:cas_ip}\|%{NUMBER:timestamp1}\|%{NUMBER:timestamp2}\|%{GREEDYDATA:cas_verdict}\|%{NUMBER:cas_score}
-SMG_TD_RESULT_OBJ_PTRN          %{NUMBER:[td_result][date]}\|%{SMGUID:smguid}\|%{SMG_TD_RESULT:action}\|%{GREEDYDATA:[td_result][filename]}\|%{SHA256:[td_result][sha256]}\|%{IP:[td_result][cas_ip]}\|%{NUMBER:[td_result][timestamp1]}\|%{NUMBER:[td_result][timestamp2]}\|%{GREEDYDATA:[td_result][cas_verdict]}\|%{NUMBER:[td_result][cas_score]}
+SMG_TD_RESULT_OBJ_PTRN          %{NUMBER:[td_result][date]}\|%{SMGUID:smguid}\|%{SMG_TD_RESULT:action}\|%{GREEDYDATA:[td_result][filename]}\|(%{SHA256:[td_result][sha256]})?\|(%{IP:[td_result][cas_ip]})?\|%{NUMBER:[td_result][timestamp1]}\|%{NUMBER:[td_result][timestamp2]}\|%{GREEDYDATA:[td_result][cas_verdict]}\|%{NUMBER:[td_result][cas_score]}
 
 SMG_IRCPTACTION_PTRN            %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_IRCPTACTION:action}\|%{EMAILADDRESS:recipient}\|%{GREEDYDATA:ircptaction}
 SMG_IRCPTACTION_OBJ_PTRN        %{NUMBER:[ircptaction][date]}\|%{SMGUID:smguid}\|%{SMG_IRCPTACTION:action}\|%{EMAILADDRESS:[ircptaction][recipient]}\|%{GREEDYDATA:[ircptaction][ircptaction]}
@@ -111,7 +117,7 @@ SMG_TRACKERID_PTRN              %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_TRACK
 SMG_TRACKERID_OBJ_PTRN          %{NUMBER:[trackerid][date]}\|%{SMGUID:smguid}\|%{SMG_TRACKERID:action}\|%{EMAILADDRESS:[trackerid][recipient]}\|%{GREEDYDATA:[trackerid][trackerid]}
 
 SMG_RESUBMIT_PTRN	            %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_RESUBMIT:action}\|%{GREEDYDATA:cas}\|%{GREEDYDATA:command}\|%{EMAILADDRESS:resubmit_recipient}
-SMG_RESUBMIT_OBJ_PTRN	        %{NUMBER:[resubmit][date]}\|%{SMGUID:smguid}\|%{SMG_RESUBMIT:action}\|%{GREEDYDATA:[resubmit][cas]}\|%{GREEDYDATA:[resubmit][command]}\|%{EMAILADDRESS:[resubmit][recipient]}
+SMG_RESUBMIT_OBJ_PTRN	        %{NUMBER:[resubmit][date]}\|%{SMGUID:smguid}\|%{SMG_RESUBMIT:action}\|%{GREEDYDATA:[resubmit][cas]}\|%{GREEDYDATA:[resubmit][command]}(\|%{EMAILADDRESS:[resubmit][recipient]})?
 
 SMG_DELIVER_PTRN                %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_DELIVER:action}\|%{DELIVERIPPORT:deliver_target}\|%{EMAILADDRESS:recipient}
 SMG_DELIVER_OBJ_PTRN            %{NUMBER:[deliver][date]}\|%{SMGUID:smguid}\|%{SMG_DELIVER:action}\|%{DELIVERIPPORT_OBJ:[deliver][target]}\|%{EMAILADDRESS:[deliver][recipient]}
