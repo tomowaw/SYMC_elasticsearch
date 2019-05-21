@@ -8,31 +8,31 @@ The events schema is no longer supported because i've created object schma where
 
 # Supported event types
 Almost all event types are already supported for SMG. Here is the list:
-VERDICT
-TD_RESULT - partially - parsing works as expected but there is huge problem with scale. ES stops responding if there are too many of events per document and here its very likely to occure. Work in progress to solve this.
-UNTESTED
-TRACKERID
-TLS_RECEIVED
-SUBJECT
-SOURCE
-SENDER
-ORCPTS
-MSG_SIZE
-MSGID
-LOGICAL_IP
-IRCPTACTION
-FIRED
-DELIVERY_FAILURE
-TRANS_FAILURE
-DELIVER
-ATTACH
-VIRUS
-UNSCANNABLE
-SPF
-DKIM
-RECEIVED
-RESUBMIT
-PMC
+- VERDICT
+- TD_RESULT - partially - parsing works as expected but there is huge problem with scale. ES stops responding if there are too many of events per document and here its very likely to occure. Work in progress to solve this.
+- UNTESTED
+- TRACKERID
+- TLS_RECEIVED
+- SUBJECT
+- SOURCE
+- SENDER
+- ORCPTS
+- MSG_SIZE
+- MSGID
+- LOGICAL_IP
+- IRCPTACTION
+- FIRED
+- DELIVERY_FAILURE
+- TRANS_FAILURE
+- DELIVER
+- ATTACH
+- VIRUS
+- UNSCANNABLE
+- SPF
+- DKIM
+- RECEIVED
+- RESUBMIT
+- PMC
 
 I didnt add DKIM because I dont have those events yet.
 
@@ -47,12 +47,13 @@ local2.*                                                /var/log/cas.log
 3. configure SMG according to "Symantec Messaging Gateway - Log Settings.png" from install_images folder.
 4. configure CAS according to "Content Analysis System - *.png" from install_images folder.
 5. use the files from etc_logstash to configure logstash
-~~6. use kibana_saved_objects.json to import Kibana visualizations and dashboard.~~
-6. Create visualizations.
+6. ~~use kibana_saved_objects.json to import Kibana visualizations and dashboard.~~ Create visualizations.
+
 Done.
 
 Notes:
 1. if you dont want to use syslog and have a bunch of log files that you want to parse you will have to adjust both patterns for smg and cas accordingly. Bare SMG and CAS logs don't have syslog fields!
+
 ~~2. keep the time synchronised! Index patterns use CAS and smg local time as Time Filter field but its still a best practice to have the time synced.~~
 
 
