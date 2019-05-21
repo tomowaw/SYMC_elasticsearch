@@ -22,12 +22,16 @@ SMG_DELIVER DELIVER
 SMG_ATTACH ATTACH
 SMG_VIRUS VIRUS
 SMG_UNSCANNABLE UNSCANNABLE
+SMG_SPF SPF
+SMG_DKIM DKIM
 
 SMG_RECEIVED RECEIVED
 SMG_RESUBMIT RESUBMIT
 
+SMG_PMC PMC
+
 EMAILADDRESSPART [a-zA-Z0-9_.+-=:*]+
-EMAILADDRESS (%{EMAILADDRESSPART:local}@%{EMAILADDRESSPART:remote}|<>)
+EMAILADDRESS (%{EMAILADDRESSPART:local}@%{EMAILADDRESSPART:remote}|%{GREEDYDATA})
 
 SHA256 [A-Fa-f0-9]{64}
 MSGID \s*(%{GREEDYDATA:msgid})?
@@ -88,14 +92,14 @@ SMG_RECEIVED_OBJ_PTRN	        %{NUMBER:[received][date]}\|%{SMGUID:smguid}\|%{SM
 SMG_UNSCANNABLE_PTRN            %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_UNSCANNABLE:action}\|%{GREEDYDATA:unscannable_reason}
 SMG_UNSCANNABLE_OBJ_PTRN        %{NUMBER:[unscannable][date]}\|%{SMGUID:smguid}\|%{SMG_UNSCANNABLE:action}\|%{GREEDYDATA:[unscannable][reason]}
 
+SMG_SPF_OBJ_PTRN                %{NUMBER:[spf][date]}\|%{SMGUID:smguid}\|%{SMG_SPF:action}\|%{DATA:[spf][status]}\|spf=%{DATA:[spf][parsed_status]} smtp.mailfrom=%{EMAILADDRESS:[spf][envelope_sender]} smtp.helo=%{GREEDYDATA:[spf][sending_mta]}
+
 # single to split
 SMG_ATTACH_PTRN                 %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_ATTACH:action}\|%{GREEDYDATA:attachments}
 SMG_ATTACH_OBJ_PTRN             %{NUMBER:[attach][date]}\|%{SMGUID:smguid}\|%{SMG_ATTACH:action}\|%{GREEDYDATA:[attach][attachments]}
 
 SMG_ORCPTS_PTRN                 %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_ORCPTS:action}\|%{GREEDYDATA:recipient}
 SMG_ORCPTS_OBJ_PTRN             %{NUMBER:[orcpts][date]}\|%{SMGUID:smguid}\|%{SMG_ORCPTS:action}\|%{GREEDYDATA:[orcpts][recipients]}
-
-
 
 # many events per email
 SMG_VERDICT_PTRN                %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_VERDICT:action}\|(%{EMAILADDRESS:recipient}|<none>)\|%{DATA:verdict}\|%{DATA:policy_group}\|%{GREEDYDATA:filtering_policy}
@@ -131,6 +135,9 @@ SMG_TRANS_FAILURE_OBJ_PTRN      %{NUMBER:[trans_failure][date]}\|%{SMGUID:smguid
 SMG_DELIVERY_FAILURE_PTRN       %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_DELIVERY_FAILURE:action}\|%{DELIVERTARGET:delivery_target}\|%{DATA:delivery_failure_message}\|%{EMAILADDRESS:recipient}
 SMG_DELIVERY_FAILURE_OBJ_PTRN   %{NUMBER:[delivery_failure][date]}\|%{SMGUID:smguid}\|%{SMG_DELIVERY_FAILURE:action}\|%{DELIVERTARGET:[delivery_failure][delivery_target]}\|%{DATA:[delivery_failure][delivery_failure_message]}\|%{EMAILADDRESS:[delivery_failure][recipient]}
 
+SMG_PMC_OBJ_PTRN                %{NUMBER:[disarm][date]}\|%{SMGUID:smguid}\|%{SMG_PMC:action}\|%{DATA:[disarm][path]}\|%{GREEDYDATA:[disarm][parts]}
+
+SMG_DKIM_OBJ_PTRN               %{NUMBER:[dkim][date]}\|%{SMGUID:smguid}\|%{SMG_DKIM:action}\|%{DATA:[dkim][status]}\|%{DATA:[dkim][sending_domain]}\|%{GREEDYDATA:[dkim][selector]}(\|%{EMAILADDRESS:[dkim][from_header]})?
 
 # match everything else comming from SMG
 SMG_ELSE                        %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{DATA:action}\|%{GREEDYDATA:_else}
