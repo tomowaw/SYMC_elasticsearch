@@ -6,6 +6,7 @@ SMG_TD_RESULT TD_RESULT
 SMG_UNTESTED UNTESTED
 SMG_TRACKERID TRACKERID
 SMG_TLS_RECEIVED TLS_RECEIVED
+SMG_TLS_DELIVERY TLS_DELIVERY
 SMG_SUBJECT SUBJECT
 SMG_SOURCE SOURCE
 SMG_SOURCETYPE internal|external
@@ -20,6 +21,7 @@ SMG_DELIVERY_FAILURE DELIVERY_FAILURE
 SMG_TRANS_FAILURE TRANS_FAILURE
 SMG_DELIVER DELIVER
 SMG_ATTACH ATTACH
+SMG_ATTACHFILTER ATTACHFILTER
 SMG_VIRUS VIRUS
 SMG_UNSCANNABLE UNSCANNABLE
 SMG_SPF SPF
@@ -68,6 +70,8 @@ SMG_EHLO_OBJ_PTRN               %{NUMBER:[ehlo][date]}\|%{SMGUID:smguid}\|%{SMG_
 SMG_TLS_RECEIVED_PTRN           %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_TLS_RECEIVED:action}\|%{GREEDYDATA:tls_received}
 SMG_TLS_RECEIVED_OBJ_PTRN       %{NUMBER:[tls_received][date]}\|%{SMGUID:smguid}\|%{SMG_TLS_RECEIVED:action}\|%{GREEDYDATA:[tls_received][tls_received]}
 
+SMG_TLS_DELIVERY_OBJ_PTRN       %{NUMBER:[tls_delivery][date]}\|%{SMGUID:smguid}\|%{SMG_TLS_DELIVERY:action}\|%{GREEDYDATA:[tls_delivery][tls_delivery]}
+
 SMG_SUBJECT_PTRN                %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_SUBJECT:action}\|%{GREEDYDATA:subject}
 SMG_SUBJECT_OBJ_PTRN            %{NUMBER:[subject][date]}\|%{SMGUID:smguid}\|%{SMG_SUBJECT:action}\|%{GREEDYDATA:[subject][subject]}
 
@@ -97,6 +101,8 @@ SMG_SPF_OBJ_PTRN                %{NUMBER:[spf][date]}\|%{SMGUID:smguid}\|%{SMG_S
 # single to split
 SMG_ATTACH_PTRN                 %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_ATTACH:action}\|%{GREEDYDATA:attachments}
 SMG_ATTACH_OBJ_PTRN             %{NUMBER:[attach][date]}\|%{SMGUID:smguid}\|%{SMG_ATTACH:action}\|%{GREEDYDATA:[attach][attachments]}
+
+SMG_ATTACHFILTER_OBJ_PTRN       %{NUMBER:[attachfilter][date]}\|%{SMGUID:smguid}\|%{SMG_ATTACHFILTER:action}\|%{GREEDYDATA:[attachfilter][attachments]}
 
 SMG_ORCPTS_PTRN                 %{NUMBER:smgdate}\|%{SMGUID:smguid}\|%{SMG_ORCPTS:action}\|%{GREEDYDATA:recipient}
 SMG_ORCPTS_OBJ_PTRN             %{NUMBER:[orcpts][date]}\|%{SMGUID:smguid}\|%{SMG_ORCPTS:action}\|%{GREEDYDATA:[orcpts][recipients]}
